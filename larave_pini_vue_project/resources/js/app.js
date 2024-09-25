@@ -6,7 +6,28 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 
+// Vuetify imports
+import { createVuetify } from 'vuetify';
+import 'vuetify/styles'; // Ensure Vuetify CSS styles are loaded
+import { aliases, mdi } from 'vuetify/iconsets/mdi';
+import * as components from 'vuetify/components';
+import * as directives from 'vuetify/directives';
+import '@mdi/font/css/materialdesignicons.css';
+
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+
+// Initialize Vuetify
+const vuetify = createVuetify({
+    components,
+    directives,
+    icons: {
+        defaultSet: 'mdi',
+        aliases,
+        sets: {
+            mdi,
+        },
+    },
+});
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -19,6 +40,7 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
+            .use(vuetify)  // Add Vuetify here
             .mount(el);
     },
     progress: {
